@@ -10,7 +10,7 @@ export function ThemeToggle() {
       leftIcon={<ColorModeIcon />}
       variant="outline"
     >
-      Switch to {colorMode === 'light' ? 'Dark' : 'Light'} Mode
+      {colorMode === 'light' ? '🌚' : '🌞'}
     </Button>
   )
 }

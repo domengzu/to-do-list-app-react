@@ -1,13 +1,14 @@
-import ButtonComponent from './ButtonComponent.jsx';
-import {ThemeToggle} from './components/ThemeToggle.jsx';
+import { ThemeToggle } from "./components/ThemeToggle.jsx";
+import InputForm from "./components/InputForm.jsx";
 
-function App(){
+function App() {
   return (
     <>
       <ThemeToggle />
-      <ButtonComponent />
+      <InputForm />
+      {/* Add other components like TaskList, Footer, etc. here */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
