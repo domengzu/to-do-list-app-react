@@ -1,11 +1,12 @@
 import { Button, Input } from "@chakra-ui/react";
+import { div } from "framer-motion/client";
 
 function InputForm() {
 
    function loadTasks(){
       const savedTasks = localStorage.getItem("task");
       // return savedTasks ? JSON.parse(savedTasks) : [];
-      
+
       if(!savedTasks) return [];
       try {
          const parsed = JSON.parse(savedTasks);
@@ -50,24 +51,16 @@ function InputForm() {
    }, 0)
 
    return (
-      <form className="mb-4 flex items-center justify-center">
-         <Input
-         width="25%"
-         marginRight="12px"
-         type="text"
-         placeholder="Enter your task"
-         />
-
-         <Button
-         size={"md"}
-         colorPalette="blue"
-         variant="surface"
-         onClick={handleAddButton}
-         >
-         Add
-         </Button>
-         <p id="tasks"></p>
-      </form>
+      <>
+         <form className="mb-4 flex items-center justify-center">
+            <Input width="25%" marginRight="12px" type="text" placeholder="Enter your task" />
+            <Button size={"md"} colorPalette="blue" variant="surface" onClick={handleAddButton}>Add</Button>
+         </form>
+         <div className="flex items-center justify-center">
+            <p id="tasks"></p>
+         </div>
+      </>
+      
    );
 }
 
