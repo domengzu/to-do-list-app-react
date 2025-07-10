@@ -1,9 +1,12 @@
-import { Button, Input } from "@chakra-ui/react";
+import { Button, Input, Dialog } from "@chakra-ui/react";
 import { Toaster, toaster } from "./ui/toaster";
 import { useState, useEffect } from "react";
+import { MdDelete } from "react-icons/md";
 
 function InputForm() {
    const [tasks, setTasks] = useState([]);
+   const [isDialogOpen, setIsDialogOpen] = useState(false);
+   const [taskToDelete, setTaskToDelete] = useState(null);
 
    function loadTasks(){
       const savedTasks = localStorage.getItem("task");
@@ -24,28 +27,35 @@ function InputForm() {
       setTasks(tasksArray);
    };
 
-   window.deleteTasks = function(taskId) {
-      const tasks = loadTasks();
-      const taskIndex = tasks.findIndex(task => task.id === taskId);
+   function handleDeleteClick(taskId){
+      setTaskToDelete(taskId);
+      setIsDialogOpen(true);
+   }
 
-      if (taskIndex !== -1) {
-         tasks.splice(taskIndex, 1);
-         saveTasks(tasks);
-         
-         toaster.create({
-            description: "Task deleted successfully!",
-            type: "success",
-            duration: 3000,
-            position: "top-center",
-         });
-      } else {
-         return toaster.create({
-            description: "Task not found!",
-            type: "error",
-            duration: 3000,
-            position: "top-center",
-         });
-      }
+   function confirmDelete() {
+      if (taskToDelete) {
+         const tasks = loadTasks();
+         const taskIndex = tasks.findIndex(task => task.id === taskToDelete);
+
+         if (taskIndex !== -1) {
+            tasks.splice(taskIndex, 1);
+            saveTasks(tasks);
+            
+            toaster.create({
+               description: "Task deleted successfully!",
+               type: "success",
+               duration: 3000,
+               position: "top-center",
+            });
+         }
+      };
+      setIsDialogOpen(false);
+      setTaskToDelete(null);
+   };
+
+   function cancelDelete() {
+      setIsDialogOpen(false);
+      setTaskToDelete(null);
    };
    
    window.toggleTask = function(taskId) {
@@ -108,16 +118,37 @@ function InputForm() {
       <>
          <div>
             <Toaster />
-            <form className="mb-4 flex items-center justify-center">
-               <Input width="15%" marginRight="12px" type="text" placeholder="Enter your task" />
-               <Button size={"md"} fontWeight="bold" colorPalette="blue" variant="surface" onClick={handleAddButton}>Add</Button>
-            </form>
-            <div className="flex items-center justify-center border-amber-500 border-2 rounded-lg p-4 mb-4">
-               {/* <p id="tasks" className="text-start"></p> */}
+               
+               <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <Dialog.Backdrop />
+                  <Dialog.Positioner>
+                     <Dialog.Content>
+                        <Dialog.Header>
+                           <Dialog.Title>Confirm Delete</Dialog.Title>
+                        </Dialog.Header>
+                        <Dialog.Body>
+                           <p>Are you sure you want to delete this task? This action cannot be undone.</p>
+                        </Dialog.Body>
+                        <Dialog.Footer>
+                           <Button variant="outline" onClick={cancelDelete}>
+                              Cancel
+                           </Button>
+                           <Button colorPalette="red" onClick={confirmDelete}>
+                              Delete
+                           </Button>
+                        </Dialog.Footer>
+                     </Dialog.Content>
+                  </Dialog.Positioner>
+               </Dialog.Root>
 
-               <div className="text-start">
+            <div>
+               <form className="mb-4 flex items-center justify-center">
+                  <Input width="15%" marginRight="12px" marginTop="15em" type="text" placeholder="Enter your task" />
+                  <Button size={"md"} fontWeight="bold" marginTop="15em" colorPalette="blue" variant="surface" onClick={handleAddButton}>Add</Button>
+               </form>
+               <div className="text-start" style={{ margin: "0 auto",maxHeight: "500px", padding: "1em", marginTop: "1.5em", width: "19%", overflowY: "auto" }}>
                   {tasks.map((taskObj) => (
-                     <div key={taskObj.id} style={{ marginBottom: "8px", display: "flex", alignItems: "center" }}>
+                     <div key={taskObj.id} style={{ marginBottom: "8px", display: "flex", alignItems: "center", display: "flex", justifyContent: "space-between" }}>
                         <input
                            type="checkbox"
                            id={`task-${taskObj.id}`}
@@ -139,9 +170,9 @@ function InputForm() {
                            size="xs"
                            colorPalette="red"
                            variant="outline"
-                           onClick={() => deleteTasks(taskObj.id)}
+                           onClick={() => handleDeleteClick(taskObj.id)}
                         >
-                           Delete
+                           <MdDelete />
                         </Button>
                      </div>
                   ))}

@@ -8,7 +8,13 @@ export function ThemeToggle() {
     <Button 
       onClick={toggleColorMode}
       leftIcon={<ColorModeIcon />}
-      variant="outline"
+      variant="surface"
+      size="md"
+      position={['fixed', 'absolute']}
+      right={['1em', '39em']}
+      top={['1em', '11.6em']}
+      colorPalette={colorMode === 'light' ? 'blue' : 'yellow'}
+      fontSize={['md', 'lg']}
     >
       {colorMode === 'light' ? '🌚' : '🌞'}
     </Button>
