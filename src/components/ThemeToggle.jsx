@@ -1,5 +1,6 @@
 import { Button } from '@chakra-ui/react'
 import { useColorMode, ColorModeIcon } from './ui/color-mode'
+import { Moon, Sun } from 'lucide-react' 
 
 export function ThemeToggle() {
   const { toggleColorMode, colorMode } = useColorMode()
@@ -13,10 +14,10 @@ export function ThemeToggle() {
       position={['fixed', 'absolute']}
       right={['1em', '39em']}
       top={['1em', '11.6em']}
-      colorPalette={colorMode === 'light' ? 'blue' : 'yellow'}
+      colorPalette={colorMode === 'light' ? 'green' : 'yellow'}
       fontSize={['md', 'lg']}
     >
-      {colorMode === 'light' ? '🌚' : '🌞'}
+      {colorMode === 'light' ? <Moon /> : <Sun />}
     </Button>
   )
 }

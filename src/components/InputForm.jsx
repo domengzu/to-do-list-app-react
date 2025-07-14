@@ -1,12 +1,36 @@
 import { Button, Input, Dialog } from "@chakra-ui/react";
 import { Toaster, toaster } from "./ui/toaster";
 import { useState, useEffect } from "react";
-import { MdDelete } from "react-icons/md";
+import { Trash2, Plus } from "lucide-react";
 
 function InputForm() {
    const [tasks, setTasks] = useState([]);
    const [isDialogOpen, setIsDialogOpen] = useState(false);
    const [taskToDelete, setTaskToDelete] = useState(null);
+
+   // const key = event.key;
+
+   // if (key === "Enter") {
+   //    e.preventDefault();
+   //    saveTasks();
+   // };
+
+   // function handleKeyDown(event) {
+   //    if (event.key === "Enter") {
+   //       event.preventDefault();
+   //       handleAddButton();
+   //    }
+   // };
+
+   // function emptyTask() { 
+   //    if(tasks.length === 0) {
+   //       return (
+   //          <div className="text-center mt-4">
+   //             <p>No tasks available. Please add a task.</p>
+   //          </div>
+   //       );
+   //    }
+   // };
 
    function loadTasks(){
       const savedTasks = localStorage.getItem("task");
@@ -102,7 +126,7 @@ function InputForm() {
             })
          }else{
             toaster.create({
-               description: "Task cannot be empty!",
+               description: "Please enter a task.",
                type: "error",
                duration: 3000,
                position: "top-center",
@@ -144,38 +168,48 @@ function InputForm() {
             <div>
                <form className="mb-4 flex items-center justify-center">
                   <Input width="15%" marginRight="12px" marginTop="15em" type="text" placeholder="Enter your task" />
-                  <Button size={"md"} fontWeight="bold" marginTop="15em" colorPalette="blue" variant="surface" onClick={handleAddButton}>Add</Button>
+                  <Button size={"md"} fontWeight="bold" marginTop="15em" colorPalette="blue" variant="surface" onClick={handleAddButton}>
+                     <Plus />
+                     Add
+                  </Button>
                </form>
                <div className="text-start" style={{ margin: "0 auto",maxHeight: "500px", padding: "1em", marginTop: "1.5em", width: "19%", overflowY: "auto" }}>
-                  {tasks.map((taskObj) => (
-                     <div key={taskObj.id} style={{ marginBottom: "8px", display: "flex", alignItems: "center", display: "flex", justifyContent: "space-between" }}>
-                        <input
-                           type="checkbox"
-                           id={`task-${taskObj.id}`}
-                           checked={taskObj.completed}
-                           onChange={() => toggleTask(taskObj.id)}
-                           style={{ marginRight: "8px" }}
-                        />
-                        <label
-                           htmlFor={`task-${taskObj.id}`}
-                           style={{ 
-                              textDecoration: taskObj.completed ? "line-through" : "none",
-                              flexGrow: 1,
-                              marginRight: "16px",
-                           }}
-                        >
-                           {taskObj.task}
-                        </label>
-                        <Button
-                           size="xs"
-                           colorPalette="red"
-                           variant="outline"
-                           onClick={() => handleDeleteClick(taskObj.id)}
-                        >
-                           <MdDelete />
-                        </Button>
+                  
+                  {tasks.length === 0 ? (
+                     <div className="text-center mt-4">
+                        <p>No tasks available. Please add a task.</p>
                      </div>
-                  ))}
+                  ) : (
+                     tasks.map((taskObj) => (
+                        <div key={taskObj.id} style={{ marginBottom: "8px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                           <input
+                              type="checkbox"
+                              id={`task-${taskObj.id}`}
+                              checked={taskObj.completed}
+                              onChange={() => toggleTask(taskObj.id)}
+                              style={{ marginRight: "8px" }}
+                           />
+                           <label
+                              htmlFor={`task-${taskObj.id}`}
+                              style={{ 
+                                 textDecoration: taskObj.completed ? "line-through" : "none",
+                                 flexGrow: 1,
+                                 marginRight: "16px",
+                              }}
+                           >
+                              {taskObj.task}
+                           </label>
+                           <Button
+                              size="xs"
+                              colorPalette="red"
+                              variant="outline"
+                              onClick={() => handleDeleteClick(taskObj.id)}
+                           >
+                              <Trash2 />
+                           </Button>
+                        </div>
+                     ))
+                  )}
                </div>
             </div>
          </div>
