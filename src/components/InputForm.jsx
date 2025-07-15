@@ -165,16 +165,15 @@ function InputForm() {
                   </Dialog.Positioner>
                </Dialog.Root>
 
-            <div>
+            <div style={{ fontFamily: "Poppins" }}>
                <form className="mb-4 flex items-center justify-center">
                   <Input width="15%" marginRight="12px" marginTop="15em" type="text" placeholder="Enter your task" />
-                  <Button size={"md"} fontWeight="bold" marginTop="15em" colorPalette="blue" variant="surface" onClick={handleAddButton}>
+                  <Button size={"md"} marginTop="15em" colorPalette="blue" variant="surface" onClick={handleAddButton}>
                      <Plus />
                      Add
                   </Button>
                </form>
                <div className="text-start" style={{ margin: "0 auto",maxHeight: "500px", padding: "1em", marginTop: "1.5em", width: "19%", overflowY: "auto" }}>
-                  
                   {tasks.length === 0 ? (
                      <div className="text-center mt-4">
                         <p>No tasks available. Please add a task.</p>
@@ -195,6 +194,8 @@ function InputForm() {
                                  textDecoration: taskObj.completed ? "line-through" : "none",
                                  flexGrow: 1,
                                  marginRight: "16px",
+                                 cursor: "pointer",
+                                 color: taskObj.completed ? "gray" : "black",
                               }}
                            >
                               {taskObj.task}
