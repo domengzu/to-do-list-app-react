@@ -2,6 +2,7 @@ import { Button, Input, Dialog } from "@chakra-ui/react";
 import { Toaster, toaster } from "./ui/toaster";
 import { useState, useEffect } from "react";
 import { Trash2, Plus } from "lucide-react";
+import img from "../assets/bg.jpg";
 
 function InputForm() {
    const [tasks, setTasks] = useState([]);
@@ -68,7 +69,7 @@ function InputForm() {
             toaster.create({
                description: "Task deleted successfully!",
                type: "success",
-               duration: 3000,
+               duration: 1000,
                position: "top-center",
             });
          }
@@ -92,7 +93,7 @@ function InputForm() {
          toaster.create({
             description: `Task ${tasks[taskIndex].completed ? 'completed' : 'uncompleted'} successfully!`,
             type: "success",
-            duration: 3000,
+            duration: 1000,
             position: "top-center",
          });
       }
@@ -121,14 +122,14 @@ function InputForm() {
             toaster.create({
                description: "Task added successfully!",
                type: "success",
-               duration: 3000,
+               duration: 1000,
                position: "top-center",
             })
          }else{
             toaster.create({
                description: "Please enter a task.",
                type: "error",
-               duration: 3000,
+               duration: 1000,
                position: "top-center",
             })
          }
@@ -167,13 +168,13 @@ function InputForm() {
 
             <div style={{ fontFamily: "Poppins" }}>
                <form className="mb-4 flex items-center justify-center">
-                  <Input width="15%" marginRight="12px" marginTop="15em" type="text" placeholder="Enter your task" />
-                  <Button size={"md"} marginTop="15em" colorPalette="blue" variant="surface" onClick={handleAddButton}>
+                  <Input width="20%" marginRight="12px" marginTop="5em" type="text" placeholder="Enter your task" />
+                  <Button size={"md"} marginTop="5em" colorPalette="blue" variant="surface" onClick={handleAddButton}>
                      <Plus />
                      Add
                   </Button>
                </form>
-               <div className="text-start" style={{ margin: "0 auto",maxHeight: "500px", padding: "1em", marginTop: "1.5em", width: "19%", overflowY: "auto" }}>
+               <div className="text-start" style={{ margin: "0 auto",maxHeight: "300px", padding: "1em", marginTop: "1em", width: "25%", overflowY: "auto" }}>
                   {tasks.length === 0 ? (
                      <div className="text-center mt-4">
                         <p>No tasks available. Please add a task.</p>
@@ -186,7 +187,20 @@ function InputForm() {
                               id={`task-${taskObj.id}`}
                               checked={taskObj.completed}
                               onChange={() => toggleTask(taskObj.id)}
-                              style={{ marginRight: "8px" }}
+                              style={{ marginRight: "8px",
+                                       borderRadius: "50%",
+                                       width: "24px",
+                                       height: "24px",
+                                       appearance: "none",
+                                       WebkitAppearance: "none",
+                                       border: "2px solid #ccc",
+                                       backgroundColor: taskObj.completed ? "#3182ce" : "transparent",
+                                       position: "relative",
+                                       cursor: "pointer",
+                                       outline: "none",
+                                       cursor: "pointer",
+                                       transition: ["background-color 0.3s, border-color 0.3s"]
+                                    }}
                            />
                            <label
                               htmlFor={`task-${taskObj.id}`}
@@ -195,7 +209,7 @@ function InputForm() {
                                  flexGrow: 1,
                                  marginRight: "16px",
                                  cursor: "pointer",
-                                 color: taskObj.completed ? "gray" : "black",
+                                 color: taskObj.completed ? "gray" : "inherit",
                               }}
                            >
                               {taskObj.task}
@@ -212,6 +226,17 @@ function InputForm() {
                      ))
                   )}
                </div>
+            </div>
+            <div>
+               <img src={img} alt="Background" style={{ 
+                  width: "100%", 
+                  height: "100%", 
+                  position: "absolute", 
+                  top: 0, 
+                  left: 0, 
+                  zIndex: -1, 
+                  opacity: 0.1 }} 
+               />
             </div>
          </div>
       </>
